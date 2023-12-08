@@ -2,7 +2,7 @@
 //Declaração da função do componente usuario
 import {useForm} from "react-hook-form";
 // Importar o axios para o código
-import {api} from "../../config_axios" // aqui vai dar ruim
+import {api} from "../config_axios" // aqui vai dar ruim
 // Importar useState inclusivo do react usa metódo promisses com async e await
 import { useState } from "react";
 //Register serve para definir os nomes dos campos do form (validação)
