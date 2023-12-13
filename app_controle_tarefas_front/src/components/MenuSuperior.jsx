@@ -5,7 +5,7 @@ const MenuSuperior = () => {
   return (
     <nav className="navbar navbar-expand-sm bg-primary navbar-dark sticky-top">
       <div className="container">
-        <Link to="/" className="navbar-brand">Controle de <Tarefas></Tarefas></Link>
+        <Link to="/" className="navbar-brand">Controle de Tarefas</Link>
         <ul className="navbar-nav">
           <li className="nav-item">
             <Link to="/" className="nav-link">Inclusão de Tarefas</Link>
