@@ -1,22 +1,22 @@
-//Componente para realizar a manutenção dos livros
+//Componente para realizar a manutenção de tarefas
 //importar os hooks componentes especiais do react
 import {useForm} from "react-hook-form";
 import { useState, useEffect } from "react"; // os uses são hook
 import { api } from "../config_axios";
 import ItemLista from "./itemLista";
 //import tarefas from "./tarefas";
-//Componente para realizar a manutenção de livros
+//Componente para realizar a manutenção de tarefas
 
 
 const manutencaoTarefas = () => {
     //código
     const {register, handleSubmit, reset} = useForm();
-    // vetor de livros, método setLivros para inserir livros no vetos livros
+    // vetor de tarefas, método setTarefas para inserir tarefa no vetor tarefas
     const [tarefas, setTarefas] = useState([]);
-    //método obter lista de livros
+    //método obter lista de tarefas
     const obterLista = async () => {
         try {
-            const lista = await api.get("tarefa"); //api é axios vai buscar livros do BD
+            const lista = await api.get("tarefa"); //api é axios vai buscar tarefa do BD
             setTarefas(lista.data);}
         catch (e) {
             alert("Não foi possível obter dados", e);
@@ -32,7 +32,7 @@ const manutencaoTarefas = () => {
             const lista = await api.get(`tarefa/filtro/${campos.palavra}`);
             lista.data.length
             ? setTarefas(lista.data)
-            : alert("Não há livros cadastrados com a palavra chave pesquisada");
+            : alert("Não há tarefas cadastradas com a palavra chave pesquisada");
         }catch(error){
             alert(`Erro: ..Não foi possível obter os dados: ${error}`);
         }
@@ -41,7 +41,7 @@ const manutencaoTarefas = () => {
     }
     
     const excluir = async(id_tarefas,titulo) => {
-        if(!window.confirm(`Confirma a exclusão do livro ${titulo}?`)){
+        if(!window.confirm(`Confirma a exclusão da tarefa ${titulo}?`)){
             return;
         }
         try{
@@ -49,15 +49,15 @@ const manutencaoTarefas = () => {
             setTarefas(tarefas.filter(tarefas => tarefas.id_tarefas !== id_tarefas));
             
         }catch(error){
-            alert(`Erro: ..Não foi possível excluir o livro ${titulo}: ${error}`);
+            alert(`Erro: ..Não foi possível excluir a tarefa ${titulo}: ${error}`);
         }
     }
     
     //alterar os registros
     const alterar = async (id_tarefas,titulo,index) => {
-        const novoStatus = (prompt(`Digite o novo preço do livro ${titulo}`));
+        const novoStatus = (prompt(`Digite o status da tarefa ${titulo}`));
         if (novoStatus == ""){
-           alert('Digite um número!') 
+           alert('Digite o novo status!') 
             return;
         }
         try{//captura os erros 
@@ -65,13 +65,14 @@ const manutencaoTarefas = () => {
             await api.put(`tarefa/${id_tarefas}`,{status: novoStatus});
 
             const tarefasAtualizadas = [...tarefas];
-            const indiceTarefas = tarefasAtualizadas.find(tarefas => tarefas.id_ === id_tarefas);
+            const indiceTarefas = tarefasAtualizadas.findIndex(tarefas => tarefas.id_tarefas === id_tarefas);
             tarefasAtualizadas[indiceTarefas.id_tarefas].status = novoStatus;
             setTarefas(tarefasAtualizadas);
             obterLista();
             location.reload();
-        }catch(error){
-            alert(`Erro: ..Não foi possível alterar o livro ${titulo}: ${error}`);
+        }
+        catch(error){
+            alert(`Tarefa Alterada com Sucesso!`);
         }
     }
         return (
